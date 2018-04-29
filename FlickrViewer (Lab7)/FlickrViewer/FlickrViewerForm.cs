@@ -33,20 +33,19 @@ namespace FlickrViewer
       {
          // Check whether user started a search previously (i.e., flickrTask is not null and the prior search has not completed) and,
          //if so, whether that search is already completed. 
-         if ( __________________________________ 
-            flickrTask.Status != TaskStatus.RanToCompletion )
+         if ( flickrTask != null && flickrTask.Status != TaskStatus.RanToCompletion )
          { //If an existing search is still being performed, the program displays a dialog asking if user wish  to cancel the search. 
             var result = MessageBox.Show( 
                "Cancel the current Flickr search?",
                "Are you sure?", MessageBoxButtons.YesNo, 
                MessageBoxIcon.Question );
 
-            // If user clicks No, the event handler simply returns. Otherwise, the program calls  the WebClient's  CancelAsync 
-            //method to terminiate the search.
-            if ( result == DialogResult.No )
-                return;
-            else
-                ___________________________________ // cancel current search
+                // If user clicks No, the event handler simply returns. Otherwise, the program calls  the WebClient's  CancelAsync 
+                //method to terminiate the search.
+                if (result == DialogResult.No)
+                    return;
+                else
+                    flickrClient.CancelAsync(); // cancel current search
          } // end if
 
          //Create a URL for invoking the Flickr web service's method flickr.photos.search.
@@ -61,9 +60,9 @@ namespace FlickrViewer
 
          try
          {
-            // Call WebClient's DownloadStringTaskAsync method using the flickrURL specified as the method's string argument to request information from
-            // the server. Assign the task returned from the method to flickrTask.
-           ______________________________________________________________________
+                // Call WebClient's DownloadStringTaskAsync method using the flickrURL specified as the method's string argument to request information from
+                // the server. Assign the task returned from the method to flickrTask.
+                flickrTask = flickrClient.DownloadStringTaskAsync(flickrURL);
 
             // await fickrTask then parse results with XDocument
             ____________________________ = ________________________( await _________________ );
